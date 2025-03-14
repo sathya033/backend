@@ -15,9 +15,6 @@ const io = new Server(server, {
   cors: { origin: "http://localhost:4200" }
 });
 
-
-
-
 // Middleware
 app.use(cors());
 app.use(express.json());
