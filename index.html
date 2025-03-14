@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Test</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <h2>Chat Test</h2>
+    <input id="username" type="text" placeholder="Enter username">
+    <input id="message" type="text" placeholder="Enter message">
+    <button onclick="sendMessage()">Send</button>
+    <ul id="messages"></ul>
+
+    <script>
+        const socket = io("http://localhost:5000");
+
+        socket.on("receiveMessage", (data) => {
+            const li = document.createElement("li");
+            li.innerText = `${data.username}: ${data.message}`;
+            document.getElementById("messages").appendChild(li);
+        });
+
+        function sendMessage() {
+            const username = document.getElementById("username").value;
+            const message = document.getElementById("message").value;
+            if (username && message) {
+                socket.emit("sendMessage", { username, message });
+                document.getElementById("message").value = "";
+            } else {
+                alert("Please enter both username and message.");
+            }
+        }
+    </script>
+</body>
+</html>
